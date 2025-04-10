@@ -1,0 +1,58 @@
+import { Campground } from './Campground'; 
+
+export const MOCK_CAMPGROUNDS = [
+  new Campground({
+    id: 1,
+    name: 'Sunny Hills Camp',
+    address: '123 Forest Drive, Woodland',
+    tel: '1234567890',
+    imageUrl: '/assets/placeimg_500_300_arch1.jpg',
+    contractSignedOn: '2020-05-10T10:20:30Z',
+    isActive: true,
+  }),
+  new Campground({
+    id: 2,
+    name: 'Riverbend Retreat',
+    address: '456 Riverside Blvd, Lakeview',
+    tel: '9876543210',
+    imageUrl: '/assets/placeimg_500_300_arch2.jpg',
+    contractSignedOn: '2019-07-22T12:45:00Z',
+    isActive: true,
+  }),
+  new Campground({
+    id: 3,
+    name: 'Mountain View Base',
+    address: '789 Summit Ave, Highland',
+    tel: '5551234567',
+    imageUrl: '/assets/placeimg_500_300_arch3.jpg',
+    contractSignedOn: '2018-09-15T08:30:00Z',
+    isActive: false,
+  }),
+  new Campground({
+    id: 4,
+    name: 'Pine Creek Campground',
+    address: '321 Pine Street, Greenwoods',
+    tel: '4449876543',
+    imageUrl: '/assets/placeimg_500_300_arch4.jpg',
+    contractSignedOn: '2021-03-05T15:10:00Z',
+    isActive: true,
+  }),
+  new Campground({
+    id: 5,
+    name: 'Desert Mirage Camp',
+    address: '654 Oasis Road, Desertville',
+    tel: '3332221111',
+    imageUrl: '/assets/placeimg_500_300_arch5.jpg',
+    contractSignedOn: '2017-11-20T09:00:00Z',
+    isActive: false,
+  }),
+  new Campground({
+    id: 6,
+    name: 'Coastal Breeze Camp',
+    address: '987 Shoreline Dr, Seaside',
+    tel: '6665554444',
+    imageUrl: '/assets/placeimg_500_300_arch6.jpg',
+    contractSignedOn: '2022-01-25T11:15:00Z',
+    isActive: true,
+  }),
+];

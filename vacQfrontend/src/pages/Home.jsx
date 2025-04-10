@@ -13,7 +13,7 @@ return(
         option below</p>
 </section>
 
-<Link to='/new-ticket'
+<Link to='/campgrounds'
     className='btn btn-reverse btn-block'>
     <FaQuestionCircle/>Create New Appointment
 </Link>

@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import CampgroundsPage from './pages/Campgrounds'
 function App() {
 return (
 <>
@@ -16,6 +17,7 @@ return (
 <Route path='/' element={<Home/>} />
 <Route path='/login' element={<Login/>} />
 <Route path='/register' element={<Register/>} />
+<Route path='/campgrounds' element={<CampgroundsPage/>} />
 </Routes>
 </div>
 </Router>

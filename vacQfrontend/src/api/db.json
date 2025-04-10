@@ -1,0 +1,60 @@
+{
+    "campgrounds": [
+      {
+        "id": 1,
+        "name": "Johnson - Kutch",
+        "address": "123 Forest Drive, Woodland",
+        "tel": "1234567890",
+        "imageUrl": "/assets/placeimg_500_300_arch4.jpg",
+        "contractSignedOn": "2013-08-04T22:39:41.473Z",
+        "isActive": false
+      },
+      {
+        "id": 2,
+        "name": "Dillesik LLCs",
+        "address": "456 Riverside Blvd, Lakeview",
+        "tel": "9876543210",
+        "imageUrl": "/assets/placeimg_500_300_arch12.jpg",
+        "contractSignedOn": "2016-06-26T18:24:01.706Z",
+        "isActive": true
+      },
+      {
+        "id": 3,
+        "name": "Purdy, Keeling and Smithams",
+        "address": "789 Summit Ave, Highland",
+        "tel": "5551234567",
+        "imageUrl": "/assets/placeimg_500_300_arch5.jpg",
+        "contractSignedOn": "2013-05-26T01:10:42.344Z",
+        "isActive": true
+      },
+      {
+        "id": 4,
+        "name": "Kreiger - Waelchis",
+        "address": "321 Pine Street, Greenwoods",
+        "tel": "4449876543",
+        "imageUrl": "/assets/placeimg_500_300_arch12.jpg",
+        "contractSignedOn": "2009-12-18T21:46:47.944Z",
+        "isActive": true
+      },
+      {
+        "id": 5,
+        "name": "Crona Inc",
+        "address": "654 Oasis Road, Desertville",
+        "tel": "3332221111",
+        "imageUrl": "/assets/placeimg_500_300_arch5.jpg",
+        "contractSignedOn": "2016-11-14T19:19:53.624Z",
+        "isActive": true
+      },
+      {
+        "id": 6,
+        "name": "Lesch - Waelchi",
+        "address": "987 Shoreline Dr, Seaside",
+        "tel": "6665554444",
+        "imageUrl": "/assets/placeimg_500_300_arch1.jpg",
+        "contractSignedOn": "2016-09-23T21:27:25.035Z",
+        "isActive": false
+      }
+  
+    ]
+  }
+  
