@@ -1,0 +1,22 @@
+.page-container {
+    min-height: 100vh;
+    width: 100%;
+    background-color: black; /* Start black */
+    color: white; /* Text also white initially */
+    opacity: 0;
+    animation: fadeToWhite 1s ease forwards;
+  }
+  
+  @keyframes fadeToWhite {
+    0% {
+      background-color: black;
+      color: black;
+      opacity: 0;
+    }
+    100% {
+      background-color: white;
+      color: black;
+      opacity: 1;
+    }
+  }
+  

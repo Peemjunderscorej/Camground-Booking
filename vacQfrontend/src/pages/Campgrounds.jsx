@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
-import { campgroundAPI } from '../components/CampgroundAPI';
-import { Campground } from "../components/Campground";
+import { campgroundAPI } from '../components/api/CampgroundAPI';
+import { Campground } from "../components/construnctor/Campground";
 import CampgroundList from "../components/CampgroundList";
 
 function CampgroundsPage() {
@@ -9,27 +9,38 @@ function CampgroundsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(1);
+  const [formData,setFormData] = useState({
+    searchText: ''
+  })
+  const {searchText} = formData
+  const [searchTrigger, setSearchTrigger] = useState(0);
 
   useEffect(() => {
     async function loadCampgrounds() {
       setLoading(true);
       try {
-        const data = await campgroundAPI.get(currentPage);
-        if (currentPage === 1) {
-          setCampgrounds(data);
-        } else {
-          setCampgrounds((campgrounds) => [...campgrounds, ...data]);
-        }
+        const data = await campgroundAPI.get(currentPage, searchText);
+        setCampgrounds((prev) => currentPage === 1 ? data : [...prev, ...data]);
+        console.log("data is : " ,data)
       } catch (e) {
         if (e instanceof Error) {
           setError(e.message);
         }
+        
       } finally {
         setLoading(false);
       }
     }
     loadCampgrounds();
-  }, [currentPage]);
+  }, [currentPage,searchTrigger]);
+
+  useEffect(() => {
+   
+      setCurrentPage(1);  // reset page
+      setCampgrounds([]); // clear old results
+      setSearchTrigger(prev => prev + 1);
+   
+  }, [searchText]);
 
   const handleMoreClick = () => {
     setCurrentPage((currentPage) => currentPage + 1);
@@ -41,11 +52,49 @@ function CampgroundsPage() {
       return c.id === campground.id ? campground : c;
     });
     setCampgrounds(updatedCampgrounds);
+    setLoading(true)
+``
+    try{
+
+    } catch (error) {
+        console.log(error)
+    } finally {
+        setLoading(false)
+    }
   };
+
+  const onChange = (e) =>{
+    setFormData((prevState)=>({
+        ...prevState,
+        [e.target.name]: e.target.value
+    }));
+}
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    console.log('Searching for campground :', searchText)
+    
+  }
 
   return (
     <>
       <h1>Campgrounds</h1>
+
+      <section className='form'>
+        <form onSubmit={handleSearch}>
+          <div className='form-group'>
+            <input type="text" className='form-control'
+                id='searchText' name='searchText' value={searchText} onChange={onChange}
+                placeholder='Enter Your Search'/>
+          </div>
+
+          <div className='form-group'>
+          <button className='btn btnblock'>Submit</button>
+        </div>
+
+        </form>
+      </section>
+      
 
       {error && (
         <div className="row">

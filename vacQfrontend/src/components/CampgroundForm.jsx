@@ -1,12 +1,12 @@
-import { Campground } from './Campground';
+import { Campground } from './construnctor/Campground';
 import { useState } from 'react';
 
 function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
     const [campground, setCampground] = useState(initialProject);
     const [errors, setErrors] = useState({
         name: '',
-        description: '',
-        budget: ''
+        address: '',
+        tel: ''
     });
 
     const handleSubmit = (event) => {
@@ -68,7 +68,7 @@ function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
                 type="text"
                 name="name"
                 placeholder="enter name"
-                value={project.name}
+                value={campground.name}
                 onChange={handleChange}
             />
             {errors.name.length > 0 && (
@@ -77,11 +77,11 @@ function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
                 </div>
             )}
 
-            <label htmlFor="description">Campground Description</label>
+            <label htmlFor="address">Campground Description</label>
             <textarea
-                name="description"
-                placeholder="enter description"
-                value={project.address}
+                name="address"
+                placeholder="enter address"
+                value={campground.address}
                 onChange={handleChange}
             ></textarea>
             {errors.address.length > 0 && (
@@ -90,12 +90,12 @@ function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
                 </div>
             )}
 
-            <label htmlFor="budget">Campground Budget</label>
+            <label htmlFor="tel">Campground telephone number</label>
             <input
                 type="number"
-                name="budget"
-                placeholder="enter budget"
-                value={project.tel}
+                name="tel"
+                placeholder="enter telephone number"
+                value={campground.tel}
                 onChange={handleChange}
             />
             {errors.tel.length > 0 && (
@@ -108,7 +108,7 @@ function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
             <input
                 type="checkbox"
                 name="isActive"
-                checked={project.isActive}
+                checked={campground.isActive}
                 onChange={handleChange}
             />
 

@@ -1,7 +1,7 @@
-import { Campground } from "./Campground"; // (you'll rename Project.js to Campground.js later)
+import { Campground } from "../construnctor/Campground"; // (you'll rename Project.js to Campground.js later)
 
-const baseUrl = "http://localhost:4000";
-const url = `${baseUrl}/campgrounds`;
+const baseUrl = "http://localhost:5000";
+const url = `${baseUrl}/api/v1/hospitals`;
 
 function translateStatusToErrorMessage(status) {
   switch (status) {
@@ -41,17 +41,25 @@ function delay(ms) {
 }
 
 function convertToCampgroundModels(data) {
-  return data.map(convertToCampgroundModel);
+  return data.data.map(convertToCampgroundModel);
 }
 
 function convertToCampgroundModel(item) {
-  return new Campground(item);
+  // console.log("convert to campround model : ", item.data)
+  return new Campground(item.data);
 }
 
 const campgroundAPI = {
-  get(page = 1, limit = 10) {
-    return fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
-      .then(delay(600))
+  get(page = 1, searchText, limit = 10) {
+    let apiUrl = `${url}?page=${page}&limit=${limit}&sort=name`
+
+    if(searchText) {
+      apiUrl += `&name=${searchText}`
+    }
+
+    console.log('fetch url : ', apiUrl)
+    return fetch(apiUrl)
+      // .then(delay(600))
       .then(checkStatus)
       .then(parseJSON)
       .then(convertToCampgroundModels)
@@ -62,10 +70,15 @@ const campgroundAPI = {
   },
 
   find(id) {
+    console.log("fetch at : ",`${url}/${id}`)
     return fetch(`${url}/${id}`)
       .then(checkStatus)
       .then(parseJSON)
-      .then(convertToCampgroundModel);
+      .then(convertToCampgroundModel)
+      .catch((error) => {
+        console.log("log client error " + error);
+        throw new Error("There was an error retrieving the campgrounds. Please try again.");
+      });
   },
 
   put(campground) {
@@ -76,7 +89,7 @@ const campgroundAPI = {
         "Content-Type": "application/json",
       },
     })
-      .then(delay(600))
+      // .then(delay(600))
       .then(checkStatus)
       .then(parseJSON)
       .catch((error) => {

@@ -1,4 +1,4 @@
-import { Campground } from './Campground'; 
+import { Campground } from './construnctor/Campground'; 
 
 export const MOCK_CAMPGROUNDS = [
   new Campground({

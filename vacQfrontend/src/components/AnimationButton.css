@@ -1,0 +1,23 @@
+@keyframes floatPulse {
+    0%, 100% {
+      transform: scale(1) rotate(var(--rotation));
+    }
+    50% {
+      transform: scale(1.4) rotate(var(--rotation));
+    }
+  }
+  
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 12px solid red; /* Triangle color */
+    transform: rotate(var(--rotation));
+    transform-origin: center;
+  }
+  
+  .animate-triangle {
+    animation: floatPulse 1s infinite ease-in-out;
+  }
+  

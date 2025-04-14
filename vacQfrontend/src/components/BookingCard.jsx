@@ -1,12 +1,11 @@
 import { Link } from 'react-router';
-import { Campground } from './construnctor/Campground';
 
 function formatDescription(address) {
   return address.substring(0, 60) + '...';
 }
 
-function CampgroundCard(props) {
-  const { campground, onEdit } = props;
+function BookingCard(props) {
+  const { booking, onEdit } = props;
   
   const handleEditClick = (camgroundBeingEdited) => {
     onEdit(camgroundBeingEdited);
@@ -14,19 +13,19 @@ function CampgroundCard(props) {
 
   return (
     <div className="card">
-      <img src={campground.imageUrl} alt={campground._id} />
+      <img src={booking.imageUrl} alt={booking._id} />
       <section className="section dark">
-        <Link to={'/campgrounds/' + campground._id}>
+        <Link to={'/bookings/' + booking._id}>
           <h5 className="strong">
-            <strong>{campground.name}</strong>
+            <strong>{booking.user.name}</strong>
           </h5>
-          <p>{formatDescription(campground.address)}</p>
-          <p>Tel : {campground.tel.toLocaleString()}</p>
+          <p>{booking.hospital.name}</p>
+           <p>createdAt : {booking.createdAt}</p> 
         </Link>
         <button
           className="bordered"
           onClick={() => {
-            handleEditClick(campground);
+            handleEditClick(booking);
           }}
         >
           <span className="icon-edit"></span>
@@ -37,4 +36,4 @@ function CampgroundCard(props) {
   );
 }
 
-export default CampgroundCard;
+export default BookingCard;

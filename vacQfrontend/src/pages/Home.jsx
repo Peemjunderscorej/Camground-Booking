@@ -1,11 +1,14 @@
 import {Link} from 'react-router-dom'
 import {FaQuestionCircle, FaTicketAlt}
 from 'react-icons/fa'
+import AnimationButton from '../components/AnimationButton';
+import '../components/FadeIn.css'
 
 function Home(){
 
 return(
 <>
+
 <section className='heading'>
     <h1>Vac Q: A Vaccine
         Booking System</h1>
@@ -18,10 +21,12 @@ return(
     <FaQuestionCircle/>Create New Appointment
 </Link>
 
-<Link to='/tickets'
+<Link to='/bookings'
     className='btn btn-block'>
     <FaTicketAlt />View My Appointments
 </Link>
+
+
 </>
 )
 }

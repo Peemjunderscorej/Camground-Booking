@@ -1,6 +1,6 @@
-import { Campground } from './Campground';
-import ProjectCard from './CampgroundCard';
-import ProjectForm from './CampgroundForm';
+import { Campground } from './construnctor/Campground';
+import CampgroundCard from './CampgroundCard';
+import CampgroundForm from './CampgroundForm';
 import { useState } from 'react';
 
 function CampgroundList({ campgrounds, onSave }) {
@@ -15,11 +15,11 @@ function CampgroundList({ campgrounds, onSave }) {
     };
 
     const items = campgrounds.map(campground => (
-        <div key={campground.id} className="cols-sm">
+        <div key={campground._id} className="cols-sm">
             {campground === campgroundBeingEdited ? (
-                <ProjectForm campground={campground} onSave={onSave} onCancel={cancelEditing} />
+                <CampgroundForm campground={campground} onSave={onSave} onCancel={cancelEditing} />
             ) : (
-                <ProjectCard campground={campground} onEdit={handleEdit} />
+                <CampgroundCard campground={campground} onEdit={handleEdit} />
             )}
         </div>
     ));
