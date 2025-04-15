@@ -83,10 +83,14 @@ const bookingAPI = {
       });
   },
 
-  post(booking) {
-    return fetch(`${url}`, {
+  post(_id, token, arriving, departing) {
+    return fetch(`${baseUrl}/api/v1/hospitals/${_id}/appointments`, {
       method: "POST",
-      body: JSON.stringify(booking),
+      body: JSON.stringify({
+        "arriving": arriving,
+        "departing": departing
+      } 
+      ),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -99,7 +103,43 @@ const bookingAPI = {
         console.log("log client error " + error);
         throw new Error("There was an error updating the booking. Please try again.");
       });
-  },
+  }, 
+
+  put(token,booking) {
+    const { _id, ...cleanedBooking } = booking;
+    console.log('Saving campground: ', cleanedBooking);
+    return fetch(`${url}/${_id}`, {
+      method: "PUT",
+      body: JSON.stringify(cleanedBooking),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      // .then(delay(600))
+      .then(checkStatus)
+      .then(parseJSON)
+      .catch((error) => {
+        console.log("log client error " + error);
+        throw new Error("There was an error updating the booking. Please try again.");
+      });
+  }, 
+
+  delete(_id, token) {
+    return fetch(`${url}/${_id}`,{
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .catch((error) => {
+      console.log("log client error " + error);
+      throw new Error("There was an error updating the booking. Please try again.");
+    });
+  }
 };
 
 export { bookingAPI };

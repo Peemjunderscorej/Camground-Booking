@@ -3,7 +3,7 @@ import BookingCard from './BookingCard';
 import BookingForm from './BookingForm';
 import { useState } from 'react';
 
-function BookingList({ bookings, onSave }) {
+function BookingList({ bookings, onSave, onDelete }) {
     const [bookingBeingEdited, setBookingBeingEdited] = useState({});
 
     const handleEdit = (booking) => {
@@ -19,7 +19,7 @@ function BookingList({ bookings, onSave }) {
             {booking === bookingBeingEdited ? (
                 <BookingForm booking={booking} onSave={onSave} onCancel={cancelEditing} />
             ) : (
-                <BookingCard booking={booking} onEdit={handleEdit} />
+                <BookingCard booking={booking} onEdit={handleEdit} onDelete={onDelete}/>
             )}
         </div>
        

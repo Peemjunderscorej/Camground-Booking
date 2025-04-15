@@ -10,6 +10,9 @@ function BookingsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const token = localStorage.getItem('token');
 
+ 
+
+
   useEffect(() => {
     async function loadBookings() {
       setLoading(true);
@@ -37,14 +40,41 @@ function BookingsPage() {
     setCurrentPage((currentPage) => currentPage + 1);
   };
 
-  const saveBooking = (booking) => {
-    console.log('Saving campground: ', booking);
+  const saveBooking = async(booking) => {
+    setLoading(true)
+    const prevBookings = bookings
     const updatedBookings = bookings.map((c) => {
-      return c.id === booking.id ? booking : c;
+      return c._id === booking._id ? booking : c;
     });
     setBookings(updatedBookings);
+
+    try{
+      await bookingAPI.put(token,booking)
+    }catch(error){
+      console.log(error)
+      setBookings(prevBookings)
+    }finally{
+      setLoading(false)
+    }
   };
 
+  const handleDelete = async(id) => {
+    setLoading(true)
+    const prevBookings = bookings;
+    setBookings((prevBookings) => prevBookings.filter((b) => b._id !== id));
+
+    try{
+      await bookingAPI.delete(id, token)
+      
+    } catch (error) {
+      console.log(error)
+      setBookings(prevBookings);
+    } finally {
+      setLoading(false)
+    }
+  }
+
+ 
   return (
     <>
       <h1>Bookings</h1>
@@ -62,7 +92,7 @@ function BookingsPage() {
         </div>
       )}
 
-      <BookingList onSave={saveBooking} bookings={bookings} />
+      <BookingList onSave={saveBooking} onDelete={handleDelete} bookings={bookings} />
 
       {/* {!loading && !error && (
         <div className="row">

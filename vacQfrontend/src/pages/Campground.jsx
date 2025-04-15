@@ -16,6 +16,7 @@ function CampgroundPage() {
     departure: '',
 });
 const {arriving,departure}=formData;
+const token = localStorage.getItem('token');
 
 
 const navigate = useNavigate()
@@ -43,7 +44,7 @@ const navigate = useNavigate()
 
     }
     
-  }, [id,Navigate]);
+  }, [id]);
  
   if (!campground) {
     return <div>Loading...</div>;
@@ -55,24 +56,19 @@ const onChange = (e) =>{
         [e.target.name]: e.target.value
     }));
 }
-const onSubmit =(e) => {
-     e.preventDefault()
-     const userData={
-         arriving,
-         departure
-     }
 
-     try{
-      async function postBooking() {
-        const data = {...camground, arriving, departure}
-        await bookingAPI.post(data)
-      }
-     } catch(error) {
-        console.log(error)
-     } finally {
-        navigate('/');
-     }
-}
+const onSubmit = async (e) => {
+  e.preventDefault();
+  const data = { ...campground, arriving, departure };
+
+  try {
+    console.log("post data is : ", data._id);
+    await bookingAPI.post(data._id, token, arriving, departure);
+    navigate('/campgrounds');
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <>

@@ -68,25 +68,54 @@ function BookingForm({ booking: initialProject, onSave, onCancel }) {
                 type="text"
                 name="user"
                 placeholder="enter user"
-                value={booking.user}
+                value={booking.user.name}
                 onChange={handleChange}
             />
             {errors.user.length > 0 && (
                 <div className="card error">
-                    <p>{errors.user}</p>
+                    <p>{errors.user.name}</p>
                 </div>
             )}
 
-            <label htmlFor="hospital">Booking Description</label>
+            <label htmlFor="user">Booking user</label>
+            <input
+                type="text"
+                name="user"
+                placeholder="enter user"
+                value={booking.user.email}
+                onChange={handleChange}
+            />
+            {errors.user.length > 0 && (
+                <div className="card error">
+                    <p>{errors.user.email}</p>
+                </div>
+            )}
+
+            <label htmlFor="user">Booking user</label>
+            <input
+                type="text"
+                name="user"
+                placeholder="enter user"
+                value={booking.user.tel}
+                onChange={handleChange}
+            />
+            {errors.user.length > 0 && (
+                <div className="card error">
+                    <p>{errors.user.tel}</p>
+                </div>
+            )}
+
+
+            <label htmlFor="hospital">Booking Campground</label>
             <textarea
                 name="hospital"
                 placeholder="enter hospital"
-                value={booking.hospital}
+                value={booking.hospital.name}
                 onChange={handleChange}
             ></textarea>
             {errors.hospital.length > 0 && (
                 <div className="card error">
-                    <p>{errors.hospital}</p>
+                    <p>{errors.hospital.name}</p>
                 </div>
             )}
 
@@ -104,11 +133,39 @@ function BookingForm({ booking: initialProject, onSave, onCancel }) {
                 </div>
             )}
 
+<label htmlFor="createdAT">Booking arriving</label>
+            <input
+                type="datetime-local"
+                name="createdAT"
+                placeholder="enter createdAT"
+                value={booking.arriving}
+                onChange={handleChange}
+            />
+            {errors.createdAT.length > 0 && (
+                <div className="card error">
+                    <p>{errors.arriving}</p>
+                </div>
+            )}
+
+<label htmlFor="createdAT">Booking departing</label>
+            <input
+                type="datetime-local"
+                name="createdAT"
+                placeholder="enter createdAT"
+                value={booking.departing}
+                onChange={handleChange}
+            />
+            {errors.createdAT.length > 0 && (
+                <div className="card error">
+                    <p>{errors.createdAT}</p>
+                </div>
+            )}
+
             <label htmlFor="isActive">Active?</label>
             <input
                 type="checkbox"
                 name="isActive"
-                checked={booking.isActive}
+                checked={booking.departing}
                 onChange={handleChange}
             />
 

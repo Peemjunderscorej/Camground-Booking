@@ -21,7 +21,7 @@ function CampgroundsPage() {
       try {
         const data = await campgroundAPI.get(currentPage, searchText);
         setCampgrounds((prev) => currentPage === 1 ? data : [...prev, ...data]);
-        console.log("data is : " ,data)
+        // console.log("data in camgrounds.jsx is : " ,data)
       } catch (e) {
         if (e instanceof Error) {
           setError(e.message);

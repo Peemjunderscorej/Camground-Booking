@@ -41,12 +41,17 @@ function delay(ms) {
 }
 
 function convertToCampgroundModels(data) {
+  // console.log("data in camgroundAPI is :",data)
   return data.data.map(convertToCampgroundModel);
 }
 
 function convertToCampgroundModel(item) {
-  // console.log("convert to campround model : ", item.data)
-  return new Campground(item.data);
+  //  console.log("convert to campround model : ",new Campground(item))
+  return new Campground(item);
+}
+
+function extractData(data){
+  return data.data
 }
 
 const campgroundAPI = {
@@ -74,6 +79,7 @@ const campgroundAPI = {
     return fetch(`${url}/${id}`)
       .then(checkStatus)
       .then(parseJSON)
+      .then(extractData)
       .then(convertToCampgroundModel)
       .catch((error) => {
         console.log("log client error " + error);

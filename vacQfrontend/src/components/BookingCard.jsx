@@ -5,10 +5,16 @@ function formatDescription(address) {
 }
 
 function BookingCard(props) {
-  const { booking, onEdit } = props;
+  const { booking, onEdit, onDelete } = props;
   
   const handleEditClick = (camgroundBeingEdited) => {
     onEdit(camgroundBeingEdited);
+  };
+
+  const handleDeleteClick = () => {
+    if (window.confirm('Are you sure you want to delete this booking?')) {
+      onDelete(booking._id);
+    }
   };
 
   return (
@@ -19,8 +25,12 @@ function BookingCard(props) {
           <h5 className="strong">
             <strong>{booking.user.name}</strong>
           </h5>
-          <p>{booking.hospital.name}</p>
-           <p>createdAt : {booking.createdAt}</p> 
+          <p>email : {booking.user.email}</p>
+          <p>telephone number : {booking.user.tel}</p>
+          <p>campground : {booking.hospital.name}</p>
+          <p>createdAt : {booking.createdAt}</p> 
+          {/* {(booking.arriving != undefined) && (<p>arriving : {booking.arriving}</p> )}
+          {(booking.departing != undefined)&& (<p>departing : {booking.departing}</p> )} */}
         </Link>
         <button
           className="bordered"
@@ -30,6 +40,16 @@ function BookingCard(props) {
         >
           <span className="icon-edit"></span>
           Edit
+        </button>
+
+        <button
+          className="bordered"
+          onClick={() => {
+            handleDeleteClick();
+          }}
+        >
+          <span className="icon-edit"></span>
+          delete
         </button>
       </section>
     </div>
