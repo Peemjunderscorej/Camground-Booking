@@ -49,9 +49,15 @@ function convertToBookingModel(item) {
 }
 
 const bookingAPI = {
-  get(page = 1, token, userName, limit = 10) {
+  get(page = 1, token, userName) {
     // return fetch(`${url}?page=${page}&limit=${limit}&sort=user`, {
-      return fetch(`${url}?&sort=user`, {
+      let apiUrl = `${url}?page=${page}&sort=name`
+
+      if(userName) {
+        apiUrl += `&search=${userName}`;
+      }
+      console.log("fetch at : ", apiUrl)
+      return fetch(apiUrl, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -105,9 +111,18 @@ const bookingAPI = {
       });
   }, 
 
-  put(token,booking) {
-    const { _id, ...cleanedBooking } = booking;
-    console.log('Saving campground: ', cleanedBooking);
+  put(token, booking) {
+    const { _id, hospital, ...rest } = booking;
+  
+    const cleanedBooking = {
+      ...rest,
+      hospital: hospital._id, 
+    };
+  
+    console.log("PUT URL:", `${url}/${_id}`);
+    console.log("PUT BODY:", JSON.stringify(cleanedBooking));
+    console.log("Authorization:", `Bearer ${token}`);
+  
     return fetch(`${url}/${_id}`, {
       method: "PUT",
       body: JSON.stringify(cleanedBooking),
@@ -116,14 +131,14 @@ const bookingAPI = {
         Authorization: `Bearer ${token}`,
       },
     })
-      // .then(delay(600))
       .then(checkStatus)
       .then(parseJSON)
       .catch((error) => {
-        console.log("log client error " + error);
+        console.log("log client error", error);
         throw new Error("There was an error updating the booking. Please try again.");
       });
-  }, 
+  },
+  
 
   delete(_id, token) {
     return fetch(`${url}/${_id}`,{

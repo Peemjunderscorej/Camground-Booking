@@ -17,7 +17,10 @@ function CampgroundList({ campgrounds, onSave }) {
     const items = campgrounds.map(campground => (
         <div key={campground._id} className="cols-sm">
             {campground === campgroundBeingEdited ? (
-                <CampgroundForm campground={campground} onSave={onSave} onCancel={cancelEditing} />
+                <CampgroundForm campground={campground} onSave={(updatedCampground) => {
+                    onSave(updatedCampground);
+                    setCampgroundBeingEdited({}); 
+                  }} onCancel={cancelEditing} />
             ) : (
                 <CampgroundCard campground={campground} onEdit={handleEdit} />
             )}

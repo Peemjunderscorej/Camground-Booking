@@ -6,6 +6,7 @@ export class Campground {
         this.tel = undefined;
         this.imageUrl = '';
         this.isActive = false;
+        this.availableDays = [];
    
    
 
@@ -16,7 +17,7 @@ export class Campground {
         if (initializer.tel) this.tel = initializer.tel;
         if (initializer.imageUrl) this.imageUrl = initializer.imageUrl;
         if (initializer.isActive) this.isActive = initializer.isActive;
-
+        if (Array.isArray(initializer.availableDays)) this.availableDays = initializer.availableDays;
 
     }
 

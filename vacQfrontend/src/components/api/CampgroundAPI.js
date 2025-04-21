@@ -41,12 +41,12 @@ function delay(ms) {
 }
 
 function convertToCampgroundModels(data) {
-  // console.log("data in camgroundAPI is :",data)
+  //  console.log("data in camgroundAPI is :",data)
   return data.data.map(convertToCampgroundModel);
 }
 
 function convertToCampgroundModel(item) {
-  //  console.log("convert to campround model : ",new Campground(item))
+    // console.log("convert to campround model : ",new Campground(item))
   return new Campground(item);
 }
 
@@ -59,7 +59,7 @@ const campgroundAPI = {
     let apiUrl = `${url}?page=${page}&limit=${limit}&sort=name`
 
     if(searchText) {
-      apiUrl += `&name=${searchText}`
+      apiUrl += `&name_like=${searchText}`
     }
 
     console.log('fetch url : ', apiUrl)
@@ -87,12 +87,13 @@ const campgroundAPI = {
       });
   },
 
-  put(campground) {
-    return fetch(`${url}/${campground.id}`, {
+  put(campground, token) {
+    return fetch(`${url}/${campground._id}`, {
       method: "PUT",
       body: JSON.stringify(campground),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       },
     })
       // .then(delay(600))

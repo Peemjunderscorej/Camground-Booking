@@ -62,7 +62,9 @@ function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
     }
 
     return (
-        <form className="input-group vertical" onSubmit={handleSubmit}>
+   
+           <div>
+             <form className="input-group vertical " onSubmit={handleSubmit}>
             <label htmlFor="name">Campground Name</label>
             <input
                 type="text"
@@ -77,7 +79,7 @@ function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
                 </div>
             )}
 
-            <label htmlFor="address">Campground Description</label>
+            <label htmlFor="address">Campground Address</label>
             <textarea
                 name="address"
                 placeholder="enter address"
@@ -90,9 +92,9 @@ function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
                 </div>
             )}
 
-            <label htmlFor="tel">Campground telephone number</label>
+            <label htmlFor="tel">Campground Telephone Number</label>
             <input
-                type="number"
+                type="text"
                 name="tel"
                 placeholder="enter telephone number"
                 value={campground.tel}
@@ -120,6 +122,11 @@ function CampgroundForm({ campground: initialProject, onSave, onCancel }) {
                 </button>
             </div>
         </form>
+           </div>
+           
+            
+       
+        
     );
 }
 

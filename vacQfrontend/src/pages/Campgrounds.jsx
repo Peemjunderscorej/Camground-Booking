@@ -14,6 +14,9 @@ function CampgroundsPage() {
   })
   const {searchText} = formData
   const [searchTrigger, setSearchTrigger] = useState(0);
+  const token = localStorage.getItem('token');
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 10;
 
   useEffect(() => {
     async function loadCampgrounds() {
@@ -22,6 +25,7 @@ function CampgroundsPage() {
         const data = await campgroundAPI.get(currentPage, searchText);
         setCampgrounds((prev) => currentPage === 1 ? data : [...prev, ...data]);
         // console.log("data in camgrounds.jsx is : " ,data)
+        setHasMore(data.length === limit);
       } catch (e) {
         if (e instanceof Error) {
           setError(e.message);
@@ -32,13 +36,18 @@ function CampgroundsPage() {
       }
     }
     loadCampgrounds();
+    
   }, [currentPage,searchTrigger]);
 
   useEffect(() => {
    
-      setCurrentPage(1);  // reset page
-      setCampgrounds([]); // clear old results
+    const delaySearch = setTimeout(() => {
+      setCurrentPage(1);
+      setCampgrounds([]);
       setSearchTrigger(prev => prev + 1);
+    }, 500); 
+  
+    return () => clearTimeout(delaySearch); 
    
   }, [searchText]);
 
@@ -46,16 +55,15 @@ function CampgroundsPage() {
     setCurrentPage((currentPage) => currentPage + 1);
   };
 
-  const saveCampground = (campground) => {
+  const saveCampground = async(campground) => {
     console.log('Saving campground: ', campground);
     const updatedCampgrounds = campgrounds.map((c) => {
-      return c.id === campground.id ? campground : c;
+      return c._id === campground._id ? campground : c;
     });
     setCampgrounds(updatedCampgrounds);
     setLoading(true)
-``
     try{
-
+        await campgroundAPI.put(campground, token)
     } catch (error) {
         console.log(error)
     } finally {
@@ -78,7 +86,10 @@ function CampgroundsPage() {
 
   return (
     <>
-      <h1>Campgrounds</h1>
+      <section className='heading'>
+  <h1>Camp Q: A Campground Reservation System</h1>
+  <p>View available campgrounds below.</p>
+</section>
 
       <section className='form'>
         <form onSubmit={handleSearch}>
@@ -88,9 +99,7 @@ function CampgroundsPage() {
                 placeholder='Enter Your Search'/>
           </div>
 
-          <div className='form-group'>
-          <button className='btn btnblock'>Submit</button>
-        </div>
+         
 
         </form>
       </section>
@@ -111,7 +120,7 @@ function CampgroundsPage() {
 
       <CampgroundList onSave={saveCampground} campgrounds={campgrounds} />
 
-      {!loading && !error && (
+      {!loading && !error && hasMore && (
         <div className="row">
           <div className="col-sm-12">
             <div className="button-group fluid">

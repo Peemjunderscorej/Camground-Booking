@@ -8,6 +8,11 @@ function BookingsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(1);
+  const [formData,setFormData] = useState({
+    searchText: ''
+  })
+  const {searchText} = formData
+  const [searchTrigger, setSearchTrigger] = useState(0);
   const token = localStorage.getItem('token');
 
  
@@ -17,13 +22,13 @@ function BookingsPage() {
     async function loadBookings() {
       setLoading(true);
       try {
-        const data = await bookingAPI.get(currentPage, token);
+        const data = await bookingAPI.get(currentPage, token, searchText);
+        console.log("data get from fetch is : ", data)
         if (currentPage === 1) {
             setBookings(data);
         } else {
             setBookings((bookings) => [...bookings, ...data]);
         }
-        console.log('bookings is ...', data)
       } catch (e) {
         if (e instanceof Error) {
           setError(e.message);
@@ -34,7 +39,19 @@ function BookingsPage() {
       }
     }
     loadBookings();
-  }, [currentPage]);
+  }, [currentPage, searchTrigger]);
+
+  useEffect(() => {
+   
+    const delaySearch = setTimeout(() => {
+      setCurrentPage(1);
+      setBookings([]);
+      setSearchTrigger(prev => prev + 1);
+    }, 500); 
+  
+    return () => clearTimeout(delaySearch); 
+   
+  }, [searchText]);
 
   const handleMoreClick = () => {
     setCurrentPage((currentPage) => currentPage + 1);
@@ -74,10 +91,38 @@ function BookingsPage() {
     }
   }
 
+  const onChange = (e) =>{
+    setFormData((prevState)=>({
+        ...prevState,
+        [e.target.name]: e.target.value
+    }));
+}
+  
+  const handleSearch = (e) => {
+    e.preventDefault()
+    console.log('Searching for campground :', searchText)
+    
+  }
  
   return (
     <>
-      <h1>Bookings</h1>
+      <section className='heading'>
+  <h1>Camp Q: A Campground Reservation System</h1>
+  <p>View and manage your existing bookings below.</p>
+</section>
+
+<section className='form'>
+        <form onSubmit={handleSearch}>
+          <div className='form-group'>
+            <input type="text" className='form-control'
+                id='searchText' name='searchText' value={searchText} onChange={onChange}
+                placeholder='Enter Your Search'/>
+          </div>
+
+      
+
+        </form>
+      </section>
 
       {error && (
         <div className="row">
