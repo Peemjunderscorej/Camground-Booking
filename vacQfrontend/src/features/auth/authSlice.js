@@ -1,5 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import authService from './authService'
+import axios from 'axios'
 //Get user from localstorage
 //const user = JSON.parse(localStorage.getItem('user'))
 
@@ -42,6 +43,29 @@ export const logout = createAsyncThunk('auth/logout',async()=>{
 await authService.logout()
 })
 
+
+
+// Google login
+export const loginWithGoogle = createAsyncThunk(
+    'auth/google',
+    async (userData, thunkAPI) => {
+      try {
+        console.log("🔁 1. Before axios.post");
+        const res = await axios.post('/api/v1/auth/google-token', userData);
+        console.log("✅ 2. After axios.post - response:", res.data);
+        return res.data;
+      } catch (err) {
+        // ✅ Properly handle backend error
+        console.error("🔥 3. Axios error:", err);
+        return thunkAPI.rejectWithValue(err?.response?.data || { error: 'Unknown error' });
+      }
+    }
+  );
+  
+
+
+
+
 export const authSlice = createSlice({
 name: 'auth',
 initialState,
@@ -74,9 +98,41 @@ state.isLoading=true
     .addCase(logout.fulfilled,(state)=>{
     state.user=null
     })
+
+    .addCase(loginWithGoogle.pending, (state) => {
+        state.isLoading = true;
+    })
+    .addCase(loginWithGoogle.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+    })
+    .addCase(loginWithGoogle.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+    })
    
     
 },
 })
 export const {reset} = authSlice.actions
 export default authSlice.reducer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

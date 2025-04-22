@@ -18,6 +18,8 @@ function CampgroundsPage() {
   const [hasMore, setHasMore] = useState(true);
   const limit = 10;
 
+  const [selectedDays, setSelectedDays] = useState([]);
+
   useEffect(() => {
     async function loadCampgrounds() {
       setLoading(true);
@@ -84,6 +86,13 @@ function CampgroundsPage() {
     
   }
 
+  const handleDayClick = (day) => {
+    setSelectedDays(prev =>
+      prev.includes(day)
+        ? prev.filter(d => d !== day)  
+        : [...prev, day]              
+    );
+  };
   return (
     <>
       <section className='heading'>
@@ -102,7 +111,30 @@ function CampgroundsPage() {
          
 
         </form>
+
+        
+
       </section>
+      <section className="day-filters" style={{ marginBottom: '1rem' }}>
+  {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+    <button
+      key={day}
+      onClick={() => handleDayClick(day)}
+      className={`day-button ${selectedDays.includes(day) ? 'active' : ''}`}
+      style={{
+        margin: '0.25rem',
+        padding: '0.5rem 1rem',
+        borderRadius: '8px',
+        border: '1px solid #ccc',
+        backgroundColor: selectedDays.includes(day) ? '#124640' : '#f9f9f9',
+        color: selectedDays.includes(day) ? '#fff' : '#000',
+        cursor: 'pointer',
+      }}
+    >
+      {day}
+    </button>
+  ))}
+</section>
       
 
       {error && (
@@ -118,7 +150,16 @@ function CampgroundsPage() {
         </div>
       )}
 
-      <CampgroundList onSave={saveCampground} campgrounds={campgrounds} />
+<CampgroundList 
+  onSave={saveCampground} 
+  campgrounds={
+    selectedDays.length === 0
+      ? campgrounds
+      : campgrounds.filter(cg =>
+          cg.availableDays.some(day => selectedDays.includes(day))
+        )
+  }
+/>
 
       {!loading && !error && hasMore && (
         <div className="row">

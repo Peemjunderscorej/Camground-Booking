@@ -2,8 +2,11 @@ import {useState, useEffect} from 'react'
 import {toast} from 'react-toastify'
 import {FaSignInAlt} from 'react-icons/fa'
 import {useSelector, useDispatch} from 'react-redux'
-import {login,reset} from '../features/auth/authSlice'
+import {login,reset, loginWithGoogle} from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
+
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 function Login(){
     const [formData,setFormData]=useState({
@@ -67,6 +70,60 @@ return(
         <div className='form-group'>
             <button className='btn btnblock'>Submit</button>
         </div>
+        
+
+
+
+        <div className="form-group">
+  <p>or login with Google:</p>
+  <GoogleLogin
+  onSuccess={async (credentialResponse) => {
+    try {
+      const decoded = jwtDecode(credentialResponse.credential);
+      console.log('Google User:', decoded);
+  
+      const userData = {
+        email: decoded.email,
+        name: decoded.name,
+        sub: decoded.sub,
+        picture: decoded.picture,
+      };
+  
+      console.log('👉 Sending to backend:', userData);
+      const resultAction = await dispatch(loginWithGoogle(userData));
+  
+      if (loginWithGoogle.fulfilled.match(resultAction)) {
+        const payload = resultAction.payload;
+  
+        console.log("🎯 Payload after dispatch:", payload);
+  
+        setTimeout(() => {
+          if (payload?.needProfile) {
+            const encoded = encodeURIComponent(JSON.stringify(payload.tempUser));
+            navigate(`/complete-profile?user=${encoded}`);
+          } else {
+            navigate('/');
+          }
+        }, 100); // Delay just enough to avoid Google SDK conflict
+      } else {
+        toast.error(resultAction.payload?.error || 'Google login failed');
+      }
+    } catch (err) {
+      console.error('🔥 Google login error:', err);
+      toast.error('Something went wrong during Google login');
+    }
+  }}
+  
+  onError={() => {
+    toast.error('Google Sign In was unsuccessful');
+  }}
+/>
+
+</div>
+
+
+
+
 
     </form>
 </section>
